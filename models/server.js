@@ -3,6 +3,7 @@
 import express from "express";
 import cors from "cors";
 import bdconectar from "../database/config.js";
+import persona from "../routes/persona.js";
 
 class Server {
   constructor() {
@@ -10,13 +11,18 @@ class Server {
     this.middlewares();
     this.port = process.env.PORT;
     this.conectarbd();
+    this.routes();
   }
   middlewares() {
     this.app.use(express.json());
     this.app.use(cors());
+    this.app.use(express.static('public'))
   }
   async conectarbd() {
     await bdconectar();
+  }
+  routes(){
+    this.app.use("/api/persona", persona           )
   }
 
   escuchar() {
@@ -26,6 +32,8 @@ class Server {
   }
 }
 export default Server;
+
+
 
 // let personas = [
 
